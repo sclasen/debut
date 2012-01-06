@@ -7,7 +7,8 @@ Gem::Specification.new do |gem|
   gem.homepage    = "http://github.com/sclasen/debut"
   gem.summary     = "Builds deb files from a single directory install like a binary tar.gz. Only on ubuntu"
   gem.description = "Builds deb files from a single directory install like a binary tar.gz"
-  gem.executables = "debut"
+  gem.executables << "debut"
+
 
   gem.files = ["lib/debut.rb", "bin/debut"]
 
