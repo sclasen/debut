@@ -8,6 +8,9 @@ module Debut
 
 		def run(*a)
 		 	user = `whoami`
+		 	if user != "root"
+		 		confirm "Current user #{user}. This should almost always be run as root are you sure (y/n)"
+		    end
 		 	puts user
 		 	dir = Dir.pwd
 		 	confirm "Debify #{dir} (y/n)?"
