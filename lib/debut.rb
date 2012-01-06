@@ -65,9 +65,7 @@ descrption #{desc}
 			f.write "Description: #{desc}\n"
 			f.write "Installed-Size: #{size}\n"
 		end
-		tellsys "cd .."
-		tellsys "dpkg-deb -b #{packdir}"
-        puts "deb is in #{packdir}.deb"
+		tellsys "dpkg-deb -b /tmp/#{packdir}"
 		
 	end
 end
