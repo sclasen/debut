@@ -48,23 +48,23 @@ descrption #{desc}
     
 
 	def make(dir, package, version, dest, name, email, desc)
-		tellsys "mkdir -p /tmp/#{package}#{dest}"	
-		tellsys "mkdir -p /tmp/#{package}/DEBIAN"	
-		tellsys "cp -r #{dir}/* /tmp/#{package}#{dest}"
-		tellsys "md5sum `find /tmp/#{package} -type f | grep -v '^[.]/DEBIAN/'` >/tmp/#{package}/DEBIAN/md5sums"
-		puts "creating /tmp/#{package}/DEBIAN/control"
+		packdir = "#{package}_#{version}_amd64"
+		tellsys "mkdir -p /tmp/#{packdir}#{dest}"	
+		tellsys "mkdir -p /tmp/#{packdir}/DEBIAN"	
+		tellsys "cp -r #{dir}/* /tmp/#{packdir}#{dest}"
+		tellsys "cd /tmp/#{packdir} && md5sum `find . -type f | grep -v '^[.]/DEBIAN/'` >DEBIAN/md5sums"
+		puts "creating /tmp/#{packdir}/DEBIAN/control"
 		size = `du -s | cut -f 1` 
- 		File::new("/tmp/#{package}/DEBIAN/control")
-		File::open("/tmp/#{package}/DEBIAN/control", 'rw') do |f|
-			f.write "Package: #{package}"
-			f.write "Version: #{version}"
-			f.write "Architecture: amd64"
-			f.write "Maintainer: #{name} <#{email}>"
-			f.write "Description: #{desc}"
-			f.write "Installed-Size: #{size}"
+		File::open("/tmp/#{packdir}/DEBIAN/control", 'w+') do |f|
+			f.write "Package: #{package}\n"
+			f.write "Version: #{version}\n"
+			f.write "Architecture: amd64\n"
+			f.write "Maintainer: #{name} <#{email}>\n"
+			f.write "Description: #{desc}\n"
+			f.write "Installed-Size: #{size}\n"
 		end
 		tellsys "cd .."
-		pust "dpkg-deb -b #{package}"
+		puts "dpkg-deb -b #{packdir}"
 
 		
 	end
