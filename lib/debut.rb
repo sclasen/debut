@@ -19,13 +19,11 @@ module Debut
 		 	name = ask("Maintainer Name?")
  			email = ask("Maintainer Email?")
  			desc = ask("Package Descrption?")
- 			confirm <<-eos
-Create deb #{package}_#{version}_amd64.deb?
-living in #{dest}
-maintainer #{name} <#{email}>
-descrption #{desc}
-???
- 			eos
+            tell "Create deb #{package}_#{version}_amd64.deb?"
+            tell "living in #{dest}"
+            tell "maintainer #{name} <#{email}>"
+            tell "descrption #{desc}"
+ 			confirm "y/n"
  			make(dir, package, version, dest, name, email, desc)
 		end
 
