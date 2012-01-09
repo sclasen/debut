@@ -49,7 +49,7 @@ descrption #{desc}
 	end
 
     def tell(msg)
-    	puts "==>  #{cmd}"
+    	puts "==>  #{msg}"
     end
 
     
