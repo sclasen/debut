@@ -15,7 +15,7 @@ module Debut
 		 	confirm "Debify #{dir} (y/n)?"
 		 	package = ask("Package Name? (If this should coexist with different versions embed the version in the name, and use 1.0 for version)")
 		 	version = ask("Version (eg 1.0)")
-		 	dest = ask("Where should this live when installed (/usr/some/path/to/it")
+		 	dest = ask("Where should this live when installed (/usr/some/path/to/it)")
 		 	name = ask("Maintainer Name?")
  			email = ask("Maintainer Email?")
  			desc = ask("Package Descrption?")
@@ -32,21 +32,26 @@ descrption #{desc}
 
 
 	def ask(q)
-			puts q
+			tell q
 			gets.strip
 	end
 
     def confirm(q)
     	if self.ask(q) != "y"
-    		puts "exiting"
+    		tell "exiting"
     		exit(1)
         end
     end
 
     def tellsys(cmd)
-    	puts cmd
+        tell cmd
     	system cmd
 	end
+
+    def tell(msg)
+    	puts "==>  #{cmd}"
+    end
+
     
 
 	def make(dir, package, version, dest, name, email, desc)
@@ -55,7 +60,7 @@ descrption #{desc}
 		tellsys "mkdir -p /tmp/#{packdir}/DEBIAN"	
 		tellsys "cp -r #{dir}/* /tmp/#{packdir}#{dest}"
 		tellsys "cd /tmp/#{packdir} && md5sum `find . -type f | grep -v '^[.]/DEBIAN/'` >DEBIAN/md5sums"
-		puts "creating /tmp/#{packdir}/DEBIAN/control"
+		tell "creating /tmp/#{packdir}/DEBIAN/control"
 		size = `du -s | cut -f 1` 
 		File::open("/tmp/#{packdir}/DEBIAN/control", 'w+') do |f|
 			f.write "Package: #{package}\n"
@@ -66,6 +71,7 @@ descrption #{desc}
 			f.write "Installed-Size: #{size}\n"
 		end
 		tellsys "dpkg-deb -b /tmp/#{packdir}"
+        tell "Deb created in /tmp/#{packdir}.deb"
 		
 	end
 end
